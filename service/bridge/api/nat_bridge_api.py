@@ -41,7 +41,7 @@ def update(features: list)->dict:
     """
     Update features from National Bridge layer.
     """
-    results = nbridge_lyr.update_features(updates=features)
+    results = nbridge_lyr.edit_features(updates=features)
 
     return results
 
