@@ -50,7 +50,7 @@ message EditResults {
 
 message Attributes {
     string bridge_id = 1;
-    int64 objectid = 2;
+    int32 objectid = 2;
     string bridge_name = 3;
     string city_regency = 4;
     double bridge_length = 5;
