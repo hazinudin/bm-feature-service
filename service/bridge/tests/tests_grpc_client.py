@@ -14,24 +14,26 @@ def run():
 
     with grpc.insecure_channel("localhost:50051") as channel:
         stub = bridge_master_pb2_grpc.BridgeMasterStub(channel)
-        req_id = bridge_master_pb2.BridgeIdRequests(bridge_ids=['4000068'])
         req_name = bridge_master_pb2.NameRequests(name=['TOLONG_DIHAPUS'])
 
-        query_response = stub.GetByID(req_id)  # Returns Bridges
-        
-        print(f"Request: {req_id}, Response: {query_response.bridges}")
-
         query_response = stub.GetByName(req_name)
-        
         print(f"Request: {req_name}, Response: {query_response.bridges}")
         
-        # insert_response = stub.Insert(query_response)  # Return editResult
+        insert_response = stub.Insert(query_response)  # Return editResult
+        print(f"Insert response: {insert_response}")
 
-        # print(f"Insert response: {insert_response}")
+        # retire_response = stub.Retire(query_response)  # Return editResult
+        # print(f"Retire response: {retire_response}")
+
+        # Query response from TOLONG_DIHAPUS
+        for bridge in query_response.bridges:
+            bridge.attributes.bridge_id = 'TEST_ID'
+
+        update_response = stub.Update(query_response)
+        print(f"Update response: {update_response}")
 
         request_oids = [bridge.attributes.objectid for bridge in query_response.bridges]
         delete_response = stub.Delete(bridge_master_pb2.ObjectIdRequests(objectids=request_oids))  # Delete editResult
-
         print(f"Delete response: {delete_response}")
 
 if __name__ == '__main__':
