@@ -12,6 +12,8 @@ service BridgeMaster {
     rpc Update(Bridges) returns (EditResults) {}
 
     rpc Delete(ObjectIdRequests) returns (EditResults) {}
+
+    rpc Retire(Bridges) returns (EditResults) {}
 }
 
 message BridgeIdRequests {

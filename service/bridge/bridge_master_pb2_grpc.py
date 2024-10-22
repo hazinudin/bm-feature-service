@@ -59,6 +59,11 @@ class BridgeMasterStub(object):
                 request_serializer=bridge__master__pb2.ObjectIdRequests.SerializeToString,
                 response_deserializer=bridge__master__pb2.EditResults.FromString,
                 _registered_method=True)
+        self.Retire = channel.unary_unary(
+                '/bridge_master.BridgeMaster/Retire',
+                request_serializer=bridge__master__pb2.Bridges.SerializeToString,
+                response_deserializer=bridge__master__pb2.EditResults.FromString,
+                _registered_method=True)
 
 
 class BridgeMasterServicer(object):
@@ -94,6 +99,12 @@ class BridgeMasterServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def Retire(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_BridgeMasterServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -120,6 +131,11 @@ def add_BridgeMasterServicer_to_server(servicer, server):
             'Delete': grpc.unary_unary_rpc_method_handler(
                     servicer.Delete,
                     request_deserializer=bridge__master__pb2.ObjectIdRequests.FromString,
+                    response_serializer=bridge__master__pb2.EditResults.SerializeToString,
+            ),
+            'Retire': grpc.unary_unary_rpc_method_handler(
+                    servicer.Retire,
+                    request_deserializer=bridge__master__pb2.Bridges.FromString,
                     response_serializer=bridge__master__pb2.EditResults.SerializeToString,
             ),
     }
@@ -257,6 +273,33 @@ class BridgeMaster(object):
             target,
             '/bridge_master.BridgeMaster/Delete',
             bridge__master__pb2.ObjectIdRequests.SerializeToString,
+            bridge__master__pb2.EditResults.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def Retire(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/bridge_master.BridgeMaster/Retire',
+            bridge__master__pb2.Bridges.SerializeToString,
             bridge__master__pb2.EditResults.FromString,
             options,
             channel_credentials,
