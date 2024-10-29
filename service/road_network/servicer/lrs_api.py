@@ -43,8 +43,8 @@ def _raw_query_with_active_date(query: str, columns: None | list = None, start_d
     query = query + " AND " + active_query
 
     if columns is None:
-        query_results = lrs_lyr.query(where=query, out_fields="*")
+        query_results = lrs_lyr.query(where=query, out_fields="*", out_sr=4326)
     else:
-        query_results = lrs_lyr.query(where=query, out_fields=columns)
+        query_results = lrs_lyr.query(where=query, out_fields=columns, out_sr=4326)
 
     return query_results
