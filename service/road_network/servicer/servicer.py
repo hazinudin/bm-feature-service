@@ -3,7 +3,11 @@ import logging
 import zipfile
 from .ms_graph_api.client import upload_file
 from .lrs_api import *
-from geopandas import read_file
+
+from geopandas import read_file, GeoDataFrame
+from pandas import concat
+from shapely import get_point, ops
+import copy
 
 OUTPUT_SHP_FOLDER=os.getenv('OUTPUT_SHP_FOLDER')
 
@@ -38,9 +42,11 @@ class RoadNetwork(lrs_pb2_grpc.RoadNetworkServicer):
     def DownloadAsSHP(self, request, context):
         """
         Download requested routes as ESRI Shapefile and return a file path/download link.
+        Generate route shapefile and route start/end point.
         """
         routes = request.routes  # Route list
         output_name = request.output_shp  # Output SHP name
+        point_shp_prefix = 'AWAL_AKHIR_'
 
         if len(output_name) == 0:
             raise ValueError("Output file name is empty string.")
@@ -59,20 +65,49 @@ class RoadNetwork(lrs_pb2_grpc.RoadNetworkServicer):
         # Output zip file name
         output_zip = output_name + '.zip'
 
-        shp_outdir = OUTPUT_SHP_FOLDER + '/' + output_file_name
+        lrs_shp_outdir = OUTPUT_SHP_FOLDER + '/' + output_file_name
+        point_shp_outdir = OUTPUT_SHP_FOLDER + '/' + point_shp_prefix + output_file_name
         zip_outdir = OUTPUT_SHP_FOLDER + '/' + output_zip
-        features = get_geom(routes=routes)  # Get route features from API
-        gdf = read_file(features.to_geojson)  # Load into GeoPandas DataFrame
+        features = routes_query(routes=routes, columns=['LINKID', 'LINK_NAME'])  # Get route features from API
+        
+        # Load into GeoPandas DataFrame
+        line_gdf = read_file(features.to_geojson, crs=4326)
+        
+        # Convert MultiLineString into LineString
+        line_gdf['geometry'] = line_gdf.apply(lambda x: ops.linemerge(x.geometry) if x.geometry.type != 'LineString' else x.geometry, axis=1)
 
-        gdf.to_file(shp_outdir, driver='ESRI Shapefile')
+        # Create end point for LRS
+        point_gdf = GeoDataFrame()
+        
+        # Create start and end point for each route line geometry.
+        for _, row in line_gdf.iterrows():
+            route_geometry = copy.deepcopy(row['geometry'])
+            for end_type in [('Awal ruas', 0), ('Akhir ruas', -1)]:
+                end_str = end_type[0]
+                end_ind = end_type[1]
+
+                row.geometry = get_point(route_geometry, end_ind)
+                row['KETERANGAN'] = end_str
+
+                point_gdf = concat([point_gdf, copy.deepcopy(row.to_frame().T)])
+
+        # Export to ShapeFile
+        GeoDataFrame(point_gdf, crs=4326).to_file(point_shp_outdir, driver='ESRI Shapefile')
+        line_gdf.to_file(lrs_shp_outdir, driver='ESRI Shapefile')
 
         # Pack into single ZIP file
         with zipfile.ZipFile(zip_outdir, 'w') as zipf:
             for _shp_comp in ['.cpg', '.dbf', '.prj', '.shp', '.shx']:
+                # Polyline
                 file_path = os.path.join(OUTPUT_SHP_FOLDER, output_name + _shp_comp)
                 zipf.write(file_path, output_name + _shp_comp)
+
+                # Point
+                file_path = os.path.join(OUTPUT_SHP_FOLDER, point_shp_prefix + output_name + _shp_comp)
+                zipf.write(file_path, 'awal_akhir_' + output_name + _shp_comp)
 
         # Upload to PUPR SharePoint
         download_url = upload_file(file_path=zip_outdir, file_name=output_zip)
 
+        # Return SharePoint download URL
         return lrs_pb2.FilePath(path=download_url)
