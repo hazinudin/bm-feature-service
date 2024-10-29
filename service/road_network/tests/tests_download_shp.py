@@ -10,7 +10,7 @@ import grpc
 def run():
     with grpc.insecure_channel("localhost:50052") as channel:
         stub = lrs_pb2_grpc.RoadNetworkStub(channel)
-        routes_req = lrs_pb2.RouteRequests(routes=['01001'], output_shp='lrs_01001.shp')
+        routes_req = lrs_pb2.RouteRequests(routes=['01001', '01002', '01003'], output_shp='SegmenRuas_Prov_01.shp')
 
         file_path = stub.DownloadAsSHP(routes_req)
         print(f"Request: {routes_req}, Response: {file_path}")
