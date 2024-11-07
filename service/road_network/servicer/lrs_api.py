@@ -1,4 +1,6 @@
 from arcgis.gis import GIS
+from arcgis.features import FeatureSet
+from pandas import concat
 import os
 from dotenv import load_dotenv
 
@@ -22,9 +24,32 @@ def routes_query(routes: list, columns: None | list = None, routeid_col='LINKID'
     """
     Query Road Network LRS for route data.
     """
-    str_list = str(routes).strip('[]')
-    query = f"{routeid_col} IN ({str_list})"
-    query_results = _raw_query_with_active_date(query, columns)
+    def _execute_query(route_list):
+        str_list = str(route_list).strip('[]')
+        query = f"{routeid_col} IN ({str_list})"
+        results = _raw_query_with_active_date(query, columns)
+
+        return results
+
+    if len(routes) <= 20:
+        query_results = _execute_query(routes)
+    else:
+        query_results = None  # FeatureSet results
+        chunk = [0, 20]  # Initial part chunk
+
+        while chunk[0] < len(routes):
+            # Execute query
+            if chunk[1] > len(routes):
+                chunk_result = _execute_query(routes[chunk[0]:len(routes)])
+            else:
+                chunk_result = _execute_query(routes[chunk[0]:chunk[1]])
+
+            if query_results is None:
+                query_results = chunk_result
+            else:
+                query_results = FeatureSet.from_dataframe(concat([query_results.sdf, chunk_result.sdf]))
+
+            chunk = [x + 20 for x in chunk]  # Update chunk
 
     return query_results
 
