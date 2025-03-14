@@ -5,7 +5,7 @@ from typing import ClassVar as _ClassVar, Iterable as _Iterable, Optional as _Op
 
 DESCRIPTOR: _descriptor.FileDescriptor
 
-class RouteRequests(_message.Message):
+class DownloadRequests(_message.Message):
     __slots__ = ("routes", "output_shp")
     ROUTES_FIELD_NUMBER: _ClassVar[int]
     OUTPUT_SHP_FIELD_NUMBER: _ClassVar[int]
@@ -13,8 +13,20 @@ class RouteRequests(_message.Message):
     output_shp: str
     def __init__(self, routes: _Optional[_Iterable[str]] = ..., output_shp: _Optional[str] = ...) -> None: ...
 
+class RouteRequests(_message.Message):
+    __slots__ = ("routes",)
+    ROUTES_FIELD_NUMBER: _ClassVar[int]
+    routes: _containers.RepeatedScalarFieldContainer[str]
+    def __init__(self, routes: _Optional[_Iterable[str]] = ...) -> None: ...
+
 class FilePath(_message.Message):
     __slots__ = ("path",)
     PATH_FIELD_NUMBER: _ClassVar[int]
     path: str
     def __init__(self, path: _Optional[str] = ...) -> None: ...
+
+class Routes(_message.Message):
+    __slots__ = ("geojson",)
+    GEOJSON_FIELD_NUMBER: _ClassVar[int]
+    geojson: str
+    def __init__(self, geojson: _Optional[str] = ...) -> None: ...

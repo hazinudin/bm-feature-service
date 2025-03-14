@@ -44,6 +44,16 @@ class BridgeMasterStub(object):
                 request_serializer=bridge__master__pb2.NameRequests.SerializeToString,
                 response_deserializer=bridge__master__pb2.Bridges.FromString,
                 _registered_method=True)
+        self.GetByBridgeNumber = channel.unary_unary(
+                '/bridge_master.BridgeMaster/GetByBridgeNumber',
+                request_serializer=bridge__master__pb2.NumberRequests.SerializeToString,
+                response_deserializer=bridge__master__pb2.Bridges.FromString,
+                _registered_method=True)
+        self.GetBySpatialFilter = channel.unary_unary(
+                '/bridge_master.BridgeMaster/GetBySpatialFilter',
+                request_serializer=bridge__master__pb2.SpatialFilter.SerializeToString,
+                response_deserializer=bridge__master__pb2.Bridges.FromString,
+                _registered_method=True)
         self.Insert = channel.unary_unary(
                 '/bridge_master.BridgeMaster/Insert',
                 request_serializer=bridge__master__pb2.Bridges.SerializeToString,
@@ -76,6 +86,18 @@ class BridgeMasterServicer(object):
         raise NotImplementedError('Method not implemented!')
 
     def GetByName(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetByBridgeNumber(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetBySpatialFilter(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -116,6 +138,16 @@ def add_BridgeMasterServicer_to_server(servicer, server):
             'GetByName': grpc.unary_unary_rpc_method_handler(
                     servicer.GetByName,
                     request_deserializer=bridge__master__pb2.NameRequests.FromString,
+                    response_serializer=bridge__master__pb2.Bridges.SerializeToString,
+            ),
+            'GetByBridgeNumber': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetByBridgeNumber,
+                    request_deserializer=bridge__master__pb2.NumberRequests.FromString,
+                    response_serializer=bridge__master__pb2.Bridges.SerializeToString,
+            ),
+            'GetBySpatialFilter': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetBySpatialFilter,
+                    request_deserializer=bridge__master__pb2.SpatialFilter.FromString,
                     response_serializer=bridge__master__pb2.Bridges.SerializeToString,
             ),
             'Insert': grpc.unary_unary_rpc_method_handler(
@@ -192,6 +224,60 @@ class BridgeMaster(object):
             target,
             '/bridge_master.BridgeMaster/GetByName',
             bridge__master__pb2.NameRequests.SerializeToString,
+            bridge__master__pb2.Bridges.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def GetByBridgeNumber(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/bridge_master.BridgeMaster/GetByBridgeNumber',
+            bridge__master__pb2.NumberRequests.SerializeToString,
+            bridge__master__pb2.Bridges.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def GetBySpatialFilter(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/bridge_master.BridgeMaster/GetBySpatialFilter',
+            bridge__master__pb2.SpatialFilter.SerializeToString,
             bridge__master__pb2.Bridges.FromString,
             options,
             channel_credentials,

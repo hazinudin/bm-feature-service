@@ -24,17 +24,21 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\tlrs.proto\x12\x0croad_network\"3\n\rRouteRequests\x12\x0e\n\x06routes\x18\x01 \x03(\t\x12\x12\n\noutput_shp\x18\x02 \x01(\t\"\x18\n\x08\x46ilePath\x12\x0c\n\x04path\x18\x01 \x01(\t2U\n\x0bRoadNetwork\x12\x46\n\rDownloadAsSHP\x12\x1b.road_network.RouteRequests\x1a\x16.road_network.FilePath\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\tlrs.proto\x12\x0croad_network\"6\n\x10\x44ownloadRequests\x12\x0e\n\x06routes\x18\x01 \x03(\t\x12\x12\n\noutput_shp\x18\x02 \x01(\t\"\x1f\n\rRouteRequests\x12\x0e\n\x06routes\x18\x01 \x03(\t\"\x18\n\x08\x46ilePath\x12\x0c\n\x04path\x18\x01 \x01(\t\"\x19\n\x06Routes\x12\x0f\n\x07geojson\x18\x01 \x01(\t2\x9d\x01\n\x0bRoadNetwork\x12I\n\rDownloadAsSHP\x12\x1e.road_network.DownloadRequests\x1a\x16.road_network.FilePath\"\x00\x12\x43\n\x0cGetByRouteId\x12\x1b.road_network.RouteRequests\x1a\x14.road_network.Routes\"\x00\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'lrs_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
-  _globals['_ROUTEREQUESTS']._serialized_start=27
-  _globals['_ROUTEREQUESTS']._serialized_end=78
-  _globals['_FILEPATH']._serialized_start=80
-  _globals['_FILEPATH']._serialized_end=104
-  _globals['_ROADNETWORK']._serialized_start=106
-  _globals['_ROADNETWORK']._serialized_end=191
+  _globals['_DOWNLOADREQUESTS']._serialized_start=27
+  _globals['_DOWNLOADREQUESTS']._serialized_end=81
+  _globals['_ROUTEREQUESTS']._serialized_start=83
+  _globals['_ROUTEREQUESTS']._serialized_end=114
+  _globals['_FILEPATH']._serialized_start=116
+  _globals['_FILEPATH']._serialized_end=140
+  _globals['_ROUTES']._serialized_start=142
+  _globals['_ROUTES']._serialized_end=167
+  _globals['_ROADNETWORK']._serialized_start=170
+  _globals['_ROADNETWORK']._serialized_end=327
 # @@protoc_insertion_point(module_scope)

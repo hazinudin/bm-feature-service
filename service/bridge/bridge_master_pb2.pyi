@@ -23,6 +23,20 @@ class NameRequests(_message.Message):
     name: _containers.RepeatedScalarFieldContainer[str]
     def __init__(self, name: _Optional[_Iterable[str]] = ...) -> None: ...
 
+class NumberRequests(_message.Message):
+    __slots__ = ("number",)
+    NUMBER_FIELD_NUMBER: _ClassVar[int]
+    number: _containers.RepeatedScalarFieldContainer[str]
+    def __init__(self, number: _Optional[_Iterable[str]] = ...) -> None: ...
+
+class SpatialFilter(_message.Message):
+    __slots__ = ("geojson", "crs")
+    GEOJSON_FIELD_NUMBER: _ClassVar[int]
+    CRS_FIELD_NUMBER: _ClassVar[int]
+    geojson: str
+    crs: str
+    def __init__(self, geojson: _Optional[str] = ..., crs: _Optional[str] = ...) -> None: ...
+
 class Result(_message.Message):
     __slots__ = ("objectid", "global_id", "success")
     OBJECTID_FIELD_NUMBER: _ClassVar[int]
@@ -60,7 +74,7 @@ class EditResults(_message.Message):
     def __init__(self, add_results: _Optional[_Iterable[_Union[Result, _Mapping]]] = ..., update_results: _Optional[_Iterable[_Union[Result, _Mapping]]] = ..., delete_results: _Optional[_Iterable[_Union[Result, _Mapping]]] = ...) -> None: ...
 
 class Attributes(_message.Message):
-    __slots__ = ("bridge_id", "objectid", "bridge_name", "city_regency", "bridge_length", "bridge_width", "start_date", "end_date", "longitude", "latitude", "bridge_num", "bridge_status", "shore_dist", "adt", "aadt", "adt_year", "road_func", "rni_surf_width", "rni_year", "bm_prov_id", "linkid")
+    __slots__ = ("bridge_id", "objectid", "bridge_name", "city_regency", "bridge_length", "bridge_width", "start_date", "end_date", "longitude", "latitude", "bridge_num", "bridge_status", "shore_dist", "adt", "aadt", "adt_year", "road_func", "rni_surf_width", "rni_year", "bm_prov_id", "linkid", "cons_year", "last_inv_date", "bridge_type", "bridge_str_type")
     BRIDGE_ID_FIELD_NUMBER: _ClassVar[int]
     OBJECTID_FIELD_NUMBER: _ClassVar[int]
     BRIDGE_NAME_FIELD_NUMBER: _ClassVar[int]
@@ -82,6 +96,10 @@ class Attributes(_message.Message):
     RNI_YEAR_FIELD_NUMBER: _ClassVar[int]
     BM_PROV_ID_FIELD_NUMBER: _ClassVar[int]
     LINKID_FIELD_NUMBER: _ClassVar[int]
+    CONS_YEAR_FIELD_NUMBER: _ClassVar[int]
+    LAST_INV_DATE_FIELD_NUMBER: _ClassVar[int]
+    BRIDGE_TYPE_FIELD_NUMBER: _ClassVar[int]
+    BRIDGE_STR_TYPE_FIELD_NUMBER: _ClassVar[int]
     bridge_id: str
     objectid: int
     bridge_name: str
@@ -103,7 +121,11 @@ class Attributes(_message.Message):
     rni_year: int
     bm_prov_id: str
     linkid: str
-    def __init__(self, bridge_id: _Optional[str] = ..., objectid: _Optional[int] = ..., bridge_name: _Optional[str] = ..., city_regency: _Optional[str] = ..., bridge_length: _Optional[float] = ..., bridge_width: _Optional[float] = ..., start_date: _Optional[str] = ..., end_date: _Optional[str] = ..., longitude: _Optional[float] = ..., latitude: _Optional[float] = ..., bridge_num: _Optional[str] = ..., bridge_status: _Optional[str] = ..., shore_dist: _Optional[float] = ..., adt: _Optional[float] = ..., aadt: _Optional[float] = ..., adt_year: _Optional[float] = ..., road_func: _Optional[str] = ..., rni_surf_width: _Optional[float] = ..., rni_year: _Optional[int] = ..., bm_prov_id: _Optional[str] = ..., linkid: _Optional[str] = ...) -> None: ...
+    cons_year: int
+    last_inv_date: str
+    bridge_type: str
+    bridge_str_type: str
+    def __init__(self, bridge_id: _Optional[str] = ..., objectid: _Optional[int] = ..., bridge_name: _Optional[str] = ..., city_regency: _Optional[str] = ..., bridge_length: _Optional[float] = ..., bridge_width: _Optional[float] = ..., start_date: _Optional[str] = ..., end_date: _Optional[str] = ..., longitude: _Optional[float] = ..., latitude: _Optional[float] = ..., bridge_num: _Optional[str] = ..., bridge_status: _Optional[str] = ..., shore_dist: _Optional[float] = ..., adt: _Optional[float] = ..., aadt: _Optional[float] = ..., adt_year: _Optional[float] = ..., road_func: _Optional[str] = ..., rni_surf_width: _Optional[float] = ..., rni_year: _Optional[int] = ..., bm_prov_id: _Optional[str] = ..., linkid: _Optional[str] = ..., cons_year: _Optional[int] = ..., last_inv_date: _Optional[str] = ..., bridge_type: _Optional[str] = ..., bridge_str_type: _Optional[str] = ...) -> None: ...
 
 class Bridge(_message.Message):
     __slots__ = ("attributes", "geometry")

@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x13\x62ridge_master.proto\x12\rbridge_master\"&\n\x10\x42ridgeIdRequests\x12\x12\n\nbridge_ids\x18\x01 \x03(\t\"%\n\x10ObjectIdRequests\x12\x11\n\tobjectids\x18\x01 \x03(\x03\"\x1c\n\x0cNameRequests\x12\x0c\n\x04name\x18\x01 \x03(\t\">\n\x06Result\x12\x10\n\x08objectid\x18\x01 \x01(\x03\x12\x11\n\tglobal_id\x18\x02 \x01(\x03\x12\x0f\n\x07success\x18\x03 \x01(\x08\"\x1f\n\x10SpatialReference\x12\x0b\n\x03wkt\x18\x01 \x01(\t\"Y\n\x05Point\x12\t\n\x01x\x18\x01 \x01(\x01\x12\t\n\x01y\x18\x02 \x01(\x01\x12:\n\x11spatial_reference\x18\x03 \x01(\x0b\x32\x1f.bridge_master.SpatialReference\"\x97\x01\n\x0b\x45\x64itResults\x12*\n\x0b\x61\x64\x64_results\x18\x01 \x03(\x0b\x32\x15.bridge_master.Result\x12-\n\x0eupdate_results\x18\x02 \x03(\x0b\x32\x15.bridge_master.Result\x12-\n\x0e\x64\x65lete_results\x18\x03 \x03(\x0b\x32\x15.bridge_master.Result\"\xa1\x03\n\nAttributes\x12\x11\n\tbridge_id\x18\x01 \x01(\t\x12\x10\n\x08objectid\x18\x02 \x01(\x05\x12\x13\n\x0b\x62ridge_name\x18\x03 \x01(\t\x12\x14\n\x0c\x63ity_regency\x18\x04 \x01(\t\x12\x15\n\rbridge_length\x18\x05 \x01(\x01\x12\x14\n\x0c\x62ridge_width\x18\x06 \x01(\x01\x12\x12\n\nstart_date\x18\x07 \x01(\t\x12\x10\n\x08\x65nd_date\x18\x08 \x01(\t\x12\x11\n\tlongitude\x18\t \x01(\x01\x12\x10\n\x08latitude\x18\n \x01(\x01\x12\x12\n\nbridge_num\x18\x0b \x01(\t\x12\x15\n\rbridge_status\x18\x0c \x01(\t\x12\x12\n\nshore_dist\x18\r \x01(\x01\x12\x0b\n\x03\x61\x64t\x18\x0e \x01(\x01\x12\x0c\n\x04\x61\x61\x64t\x18\x0f \x01(\x01\x12\x10\n\x08\x61\x64t_year\x18\x10 \x01(\x01\x12\x11\n\troad_func\x18\x11 \x01(\t\x12\x16\n\x0erni_surf_width\x18\x12 \x01(\x01\x12\x10\n\x08rni_year\x18\x13 \x01(\x05\x12\x12\n\nbm_prov_id\x18\x14 \x01(\t\x12\x0e\n\x06linkid\x18\x15 \x01(\t\"_\n\x06\x42ridge\x12-\n\nattributes\x18\x01 \x01(\x0b\x32\x19.bridge_master.Attributes\x12&\n\x08geometry\x18\x02 \x01(\x0b\x32\x14.bridge_master.Point\"1\n\x07\x42ridges\x12&\n\x07\x62ridges\x18\x01 \x03(\x0b\x32\x15.bridge_master.Bridge2\xa1\x03\n\x0c\x42ridgeMaster\x12\x44\n\x07GetByID\x12\x1f.bridge_master.BridgeIdRequests\x1a\x16.bridge_master.Bridges\"\x00\x12\x42\n\tGetByName\x12\x1b.bridge_master.NameRequests\x1a\x16.bridge_master.Bridges\"\x00\x12>\n\x06Insert\x12\x16.bridge_master.Bridges\x1a\x1a.bridge_master.EditResults\"\x00\x12>\n\x06Update\x12\x16.bridge_master.Bridges\x1a\x1a.bridge_master.EditResults\"\x00\x12G\n\x06\x44\x65lete\x12\x1f.bridge_master.ObjectIdRequests\x1a\x1a.bridge_master.EditResults\"\x00\x12>\n\x06Retire\x12\x16.bridge_master.Bridges\x1a\x1a.bridge_master.EditResults\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x13\x62ridge_master.proto\x12\rbridge_master\"&\n\x10\x42ridgeIdRequests\x12\x12\n\nbridge_ids\x18\x01 \x03(\t\"%\n\x10ObjectIdRequests\x12\x11\n\tobjectids\x18\x01 \x03(\x03\"\x1c\n\x0cNameRequests\x12\x0c\n\x04name\x18\x01 \x03(\t\" \n\x0eNumberRequests\x12\x0e\n\x06number\x18\x01 \x03(\t\"-\n\rSpatialFilter\x12\x0f\n\x07geojson\x18\x01 \x01(\t\x12\x0b\n\x03\x63rs\x18\x02 \x01(\t\">\n\x06Result\x12\x10\n\x08objectid\x18\x01 \x01(\x03\x12\x11\n\tglobal_id\x18\x02 \x01(\x03\x12\x0f\n\x07success\x18\x03 \x01(\x08\"\x1f\n\x10SpatialReference\x12\x0b\n\x03wkt\x18\x01 \x01(\t\"Y\n\x05Point\x12\t\n\x01x\x18\x01 \x01(\x01\x12\t\n\x01y\x18\x02 \x01(\x01\x12:\n\x11spatial_reference\x18\x03 \x01(\x0b\x32\x1f.bridge_master.SpatialReference\"\x97\x01\n\x0b\x45\x64itResults\x12*\n\x0b\x61\x64\x64_results\x18\x01 \x03(\x0b\x32\x15.bridge_master.Result\x12-\n\x0eupdate_results\x18\x02 \x03(\x0b\x32\x15.bridge_master.Result\x12-\n\x0e\x64\x65lete_results\x18\x03 \x03(\x0b\x32\x15.bridge_master.Result\"\xf9\x03\n\nAttributes\x12\x11\n\tbridge_id\x18\x01 \x01(\t\x12\x10\n\x08objectid\x18\x02 \x01(\x05\x12\x13\n\x0b\x62ridge_name\x18\x03 \x01(\t\x12\x14\n\x0c\x63ity_regency\x18\x04 \x01(\t\x12\x15\n\rbridge_length\x18\x05 \x01(\x01\x12\x14\n\x0c\x62ridge_width\x18\x06 \x01(\x01\x12\x12\n\nstart_date\x18\x07 \x01(\t\x12\x10\n\x08\x65nd_date\x18\x08 \x01(\t\x12\x11\n\tlongitude\x18\t \x01(\x01\x12\x10\n\x08latitude\x18\n \x01(\x01\x12\x12\n\nbridge_num\x18\x0b \x01(\t\x12\x15\n\rbridge_status\x18\x0c \x01(\t\x12\x12\n\nshore_dist\x18\r \x01(\x01\x12\x0b\n\x03\x61\x64t\x18\x0e \x01(\x01\x12\x0c\n\x04\x61\x61\x64t\x18\x0f \x01(\x01\x12\x10\n\x08\x61\x64t_year\x18\x10 \x01(\x01\x12\x11\n\troad_func\x18\x11 \x01(\t\x12\x16\n\x0erni_surf_width\x18\x12 \x01(\x01\x12\x10\n\x08rni_year\x18\x13 \x01(\x05\x12\x12\n\nbm_prov_id\x18\x14 \x01(\t\x12\x0e\n\x06linkid\x18\x15 \x01(\t\x12\x11\n\tcons_year\x18\x16 \x01(\x05\x12\x15\n\rlast_inv_date\x18\x17 \x01(\t\x12\x13\n\x0b\x62ridge_type\x18\x18 \x01(\t\x12\x17\n\x0f\x62ridge_str_type\x18\x19 \x01(\t\"_\n\x06\x42ridge\x12-\n\nattributes\x18\x01 \x01(\x0b\x32\x19.bridge_master.Attributes\x12&\n\x08geometry\x18\x02 \x01(\x0b\x32\x14.bridge_master.Point\"1\n\x07\x42ridges\x12&\n\x07\x62ridges\x18\x01 \x03(\x0b\x32\x15.bridge_master.Bridge2\xbd\x04\n\x0c\x42ridgeMaster\x12\x44\n\x07GetByID\x12\x1f.bridge_master.BridgeIdRequests\x1a\x16.bridge_master.Bridges\"\x00\x12\x42\n\tGetByName\x12\x1b.bridge_master.NameRequests\x1a\x16.bridge_master.Bridges\"\x00\x12L\n\x11GetByBridgeNumber\x12\x1d.bridge_master.NumberRequests\x1a\x16.bridge_master.Bridges\"\x00\x12L\n\x12GetBySpatialFilter\x12\x1c.bridge_master.SpatialFilter\x1a\x16.bridge_master.Bridges\"\x00\x12>\n\x06Insert\x12\x16.bridge_master.Bridges\x1a\x1a.bridge_master.EditResults\"\x00\x12>\n\x06Update\x12\x16.bridge_master.Bridges\x1a\x1a.bridge_master.EditResults\"\x00\x12G\n\x06\x44\x65lete\x12\x1f.bridge_master.ObjectIdRequests\x1a\x1a.bridge_master.EditResults\"\x00\x12>\n\x06Retire\x12\x16.bridge_master.Bridges\x1a\x1a.bridge_master.EditResults\"\x00\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -37,20 +37,24 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_OBJECTIDREQUESTS']._serialized_end=115
   _globals['_NAMEREQUESTS']._serialized_start=117
   _globals['_NAMEREQUESTS']._serialized_end=145
-  _globals['_RESULT']._serialized_start=147
-  _globals['_RESULT']._serialized_end=209
-  _globals['_SPATIALREFERENCE']._serialized_start=211
-  _globals['_SPATIALREFERENCE']._serialized_end=242
-  _globals['_POINT']._serialized_start=244
-  _globals['_POINT']._serialized_end=333
-  _globals['_EDITRESULTS']._serialized_start=336
-  _globals['_EDITRESULTS']._serialized_end=487
-  _globals['_ATTRIBUTES']._serialized_start=490
-  _globals['_ATTRIBUTES']._serialized_end=907
-  _globals['_BRIDGE']._serialized_start=909
-  _globals['_BRIDGE']._serialized_end=1004
-  _globals['_BRIDGES']._serialized_start=1006
-  _globals['_BRIDGES']._serialized_end=1055
-  _globals['_BRIDGEMASTER']._serialized_start=1058
-  _globals['_BRIDGEMASTER']._serialized_end=1475
+  _globals['_NUMBERREQUESTS']._serialized_start=147
+  _globals['_NUMBERREQUESTS']._serialized_end=179
+  _globals['_SPATIALFILTER']._serialized_start=181
+  _globals['_SPATIALFILTER']._serialized_end=226
+  _globals['_RESULT']._serialized_start=228
+  _globals['_RESULT']._serialized_end=290
+  _globals['_SPATIALREFERENCE']._serialized_start=292
+  _globals['_SPATIALREFERENCE']._serialized_end=323
+  _globals['_POINT']._serialized_start=325
+  _globals['_POINT']._serialized_end=414
+  _globals['_EDITRESULTS']._serialized_start=417
+  _globals['_EDITRESULTS']._serialized_end=568
+  _globals['_ATTRIBUTES']._serialized_start=571
+  _globals['_ATTRIBUTES']._serialized_end=1076
+  _globals['_BRIDGE']._serialized_start=1078
+  _globals['_BRIDGE']._serialized_end=1173
+  _globals['_BRIDGES']._serialized_start=1175
+  _globals['_BRIDGES']._serialized_end=1224
+  _globals['_BRIDGEMASTER']._serialized_start=1227
+  _globals['_BRIDGEMASTER']._serialized_end=1800
 # @@protoc_insertion_point(module_scope)

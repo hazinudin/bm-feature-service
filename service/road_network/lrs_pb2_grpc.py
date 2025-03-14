@@ -36,8 +36,13 @@ class RoadNetworkStub(object):
         """
         self.DownloadAsSHP = channel.unary_unary(
                 '/road_network.RoadNetwork/DownloadAsSHP',
-                request_serializer=lrs__pb2.RouteRequests.SerializeToString,
+                request_serializer=lrs__pb2.DownloadRequests.SerializeToString,
                 response_deserializer=lrs__pb2.FilePath.FromString,
+                _registered_method=True)
+        self.GetByRouteId = channel.unary_unary(
+                '/road_network.RoadNetwork/GetByRouteId',
+                request_serializer=lrs__pb2.RouteRequests.SerializeToString,
+                response_deserializer=lrs__pb2.Routes.FromString,
                 _registered_method=True)
 
 
@@ -50,13 +55,24 @@ class RoadNetworkServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def GetByRouteId(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_RoadNetworkServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'DownloadAsSHP': grpc.unary_unary_rpc_method_handler(
                     servicer.DownloadAsSHP,
-                    request_deserializer=lrs__pb2.RouteRequests.FromString,
+                    request_deserializer=lrs__pb2.DownloadRequests.FromString,
                     response_serializer=lrs__pb2.FilePath.SerializeToString,
+            ),
+            'GetByRouteId': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetByRouteId,
+                    request_deserializer=lrs__pb2.RouteRequests.FromString,
+                    response_serializer=lrs__pb2.Routes.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -84,8 +100,35 @@ class RoadNetwork(object):
             request,
             target,
             '/road_network.RoadNetwork/DownloadAsSHP',
-            lrs__pb2.RouteRequests.SerializeToString,
+            lrs__pb2.DownloadRequests.SerializeToString,
             lrs__pb2.FilePath.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def GetByRouteId(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/road_network.RoadNetwork/GetByRouteId',
+            lrs__pb2.RouteRequests.SerializeToString,
+            lrs__pb2.Routes.FromString,
             options,
             channel_credentials,
             insecure,

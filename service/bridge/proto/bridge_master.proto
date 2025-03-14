@@ -7,6 +7,10 @@ service BridgeMaster {
 
     rpc GetByName (NameRequests) returns (Bridges) {}
 
+    rpc GetByBridgeNumber (NumberRequests) returns (Bridges) {}
+
+    rpc GetBySpatialFilter (SpatialFilter) returns (Bridges) {}
+
     rpc Insert(Bridges) returns (EditResults) {}
 
     rpc Update(Bridges) returns (EditResults) {}
@@ -26,6 +30,15 @@ message ObjectIdRequests {
 
 message NameRequests {
     repeated string name = 1;
+}
+
+message NumberRequests {
+    repeated string number = 1;
+}
+
+message SpatialFilter {
+    string geojson = 1;
+    string crs = 2;
 }
 
 message Result {
@@ -72,6 +85,10 @@ message Attributes {
     int32 rni_year = 19;
     string bm_prov_id = 20;
     string linkid = 21;
+    int32 cons_year = 22;
+    string last_inv_date = 23;
+    string bridge_type = 24;
+    string bridge_str_type = 25;
 }
 
 message Bridge {
