@@ -5,9 +5,10 @@ from .ms_graph_api.client import upload_file
 from .lrs_api import *
 
 from geopandas import read_file, GeoDataFrame
-from pandas import concat
+from pandas import concat, DataFrame
 from shapely import get_point, ops
 import copy
+import time
 
 OUTPUT_SHP_FOLDER=os.getenv('OUTPUT_SHP_FOLDER')
 
@@ -18,8 +19,9 @@ def service_logger():
     def decorator(fn):
         def wrapper(*args, **kwargs):
             cls = args[0]
+            start_time = time.perf_counter()
             results = fn(*args, **kwargs)
-            cls.logger.info(f"{fn.__name__}, request {args[1]}")
+            cls.logger.info(f"{fn.__name__}, request {args[1]}, total time: {time.perf_counter()-start_time}")
 
             return results
 
@@ -111,3 +113,10 @@ class RoadNetwork(lrs_pb2_grpc.RoadNetworkServicer):
 
         # Return SharePoint download URL
         return lrs_pb2.FilePath(path=download_url)
+    
+    @service_logger()
+    def GetByRouteId(self, request, context):
+        routes = request.routes  # Route list
+        features = routes_query(routes=routes)  # Get route features from API
+
+        return lrs_pb2.Routes(geojson=features.to_geojson)
