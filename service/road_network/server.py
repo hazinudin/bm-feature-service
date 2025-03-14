@@ -14,13 +14,16 @@ from dotenv import load_dotenv
 
 load_dotenv('.env')
 PORT = os.getenv('LRS_GRPC_PORT')
-MAX_WORKERS = 10
+MAX_WORKERS = 20
 
 logger = logging.getLogger(__name__)
 
 def serve():
     port = PORT
-    server = grpc.server(futures.ThreadPoolExecutor(max_workers=MAX_WORKERS))
+    server = grpc.server(futures.ThreadPoolExecutor(max_workers=MAX_WORKERS), options=[
+                        ('grpc.max_send_message_length', 8188254),
+                        ('grpc.max_receive_message_length', 8188254),
+                        ])
     lrs_pb2_grpc.add_RoadNetworkServicer_to_server(RoadNetwork(logger=logger), server)
 
     server.add_insecure_port("[::]:" + port)
