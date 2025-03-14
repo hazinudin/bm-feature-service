@@ -1,6 +1,8 @@
 from arcgis.gis import GIS
-from arcgis.geometry import Point
-from arcgis.features import Feature
+from arcgis.features import FeatureSet
+from arcgis.geometry.filters import contains
+from arcgis.geometry import Geometry
+import json
 import os
 from dotenv import load_dotenv
 
@@ -11,7 +13,7 @@ PORTAL_URL=os.getenv('PORTAL_URL')
 PORTAL_USERNAME=os.getenv('PORTAL_USERNAME')
 PORTAL_PWD=os.getenv('PORTAL_PWD')
 
-FEATURE_SERVICE_NAME='National_Bridge'
+FEATURE_SERVICE_NAME='Service_National_Bridge'
 
 # Login
 portal = GIS(PORTAL_URL, PORTAL_USERNAME, PORTAL_PWD)
@@ -74,7 +76,37 @@ def bridge_name_query(bridge_name: list, columns: None | list = None, bridge_nam
 
     return query_results
 
-def _raw_query_with_active_date(query: str, columns: None | list = None, start_date_col='START_DATE', end_date_col='END_DATE'):
+def bridge_number_query(bridge_number: list, columns: None | list = None, bridge_num_col='BRIDGE_NUM'):
+    """
+    Query National Bridge layer using bridge number with added active date query
+    """
+    str_list = str(bridge_number).strip('[]')
+    query = f"{bridge_num_col} IN ({str_list})"
+    query_results = _raw_query_with_active_date(query, columns)
+
+    return query_results
+
+def bridge_spatial_query(geometry: str, crs: str, columns: None | list = None):
+    """
+    Query National Bridge layer using bridge number with added active date query.
+    Return bridge which is contained by the input/filter geometry. Only accepts Polygon geometry.
+    """
+    # Serialize the input GeoJSON string
+    input_geom_dict = json.loads(geometry)
+    input_geom_dict['rings'] = input_geom_dict.pop('coordinates')
+    input_geom_dict['spatialReference'] = {"wkt": crs}
+
+    # Create ArcGIS geometry object
+    input_geom = Geometry(input_geom_dict)
+    filter = contains(input_geom, sr={"wkt": crs})
+
+    # Query
+    query_results = _raw_query_with_active_date("1=1", geometry_filter=filter, columns=columns)
+
+    return query_results
+
+def _raw_query_with_active_date(query: str, geometry_filter=None, columns: None | list = None, 
+                                start_date_col='START_DATE', end_date_col='END_DATE'):
     """
     Execute raw query on National Bridge layer with added active date query
     """
@@ -83,9 +115,12 @@ def _raw_query_with_active_date(query: str, columns: None | list = None, start_d
     query = query + " AND " + active_query
 
     if columns is None:
-        query_results = nbridge_lyr.query(where=query, out_fields="*")
+        query_results = nbridge_lyr.query(where=query, geometry_filter=geometry_filter, out_fields="*")
     else:
-        query_results = nbridge_lyr.query(where=query, out_fields=columns)
-
-    return query_results    
+        query_results = nbridge_lyr.query(where=query, geometry_filter=geometry_filter, out_fields=columns)
+    
+    if type(query_results) == dict:
+        return FeatureSet.from_dict(query_results)
+    else:
+        return query_results    
 
