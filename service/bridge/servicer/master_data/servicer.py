@@ -13,8 +13,12 @@ def service_logger():
     def decorator(fn):
         def wrapper(*args, **kwargs):
             cls = args[0]
+
+            start_time = time.perf_counter()
             results = fn(*args, **kwargs)
-            cls.logger.info(f"{fn.__name__}, request {args[1]}")
+            end_time =  time.perf_counter()
+
+            cls.logger.info(f"{fn.__name__}, total time: {end_time-start_time}, request {args[1]}")
 
             return results
 
@@ -56,6 +60,37 @@ class BridgeMaster(bridge_master_pb2_grpc.BridgeMasterServicer):
         response = bridge_api.bridge_name_query(req_name)
         bridges = bridge_master_pb2.Bridges()
             
+        for feature in response.features:
+            bridge = self.feature_to_pb_bridge(feature)
+            bridges.bridges.append(bridge)
+
+        return bridges
+    
+    @service_logger()
+    def GetByBridgeNumber(self, request, context):
+        """
+        Bridge Master data query using bridge number
+        """
+        req_num = request.number
+        response = bridge_api.bridge_number_query(req_num)
+        bridges = bridge_master_pb2.Bridges()
+
+        for feature in response.features:
+            bridge = self.feature_to_pb_bridge(feature)
+            bridges.bridges.append(bridge)
+
+        return bridges
+    
+    @service_logger()
+    def GetBySpatialFilter(self, request, context):
+        """
+        Bridge Master data query using spatial filter.
+        """
+        geojson = request.geojson
+        crs = request.crs
+        response = bridge_api.bridge_spatial_query(geojson, crs)
+        bridges = bridge_master_pb2.Bridges()
+
         for feature in response.features:
             bridge = self.feature_to_pb_bridge(feature)
             bridges.bridges.append(bridge)
