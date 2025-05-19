@@ -13,7 +13,7 @@ PORTAL_PWD=os.getenv('PORTAL_PWD')
 FEATURE_SERVICE_NAME='BinaMargaLRS'
 
 # Login
-portal = GIS(PORTAL_URL, PORTAL_USERNAME, PORTAL_PWD)
+portal = GIS(PORTAL_URL, PORTAL_USERNAME, PORTAL_PWD, verify_cert=False)
 
 # Search feature layer
 service_query = 'title: "{}" AND type: "Map Service"'.format(FEATURE_SERVICE_NAME)
